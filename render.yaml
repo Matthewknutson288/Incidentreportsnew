@@ -1,0 +1,28 @@
+services:
+  # Backend API
+  - type: web
+    name: incident-reports-api
+    env: node
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI
+        sync: false
+      - key: EMAIL_USER
+        sync: false
+      - key: EMAIL_PASS
+        sync: false
+      - key: MANAGER_EMAIL
+        sync: false
+
+  # Frontend React App
+  - type: web
+    name: incident-reports-frontend
+    env: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: ./frontend/dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://your-backend-url.onrender.com 
