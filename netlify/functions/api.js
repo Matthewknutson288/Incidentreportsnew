@@ -8,8 +8,8 @@ mongoose.connect(process.env.MONGO_URI, {
 });
 
 // Import your models
-const IncidentReport = require('../../backend/models/IncidentReport');
-const Employee = require('../../backend/models/Employee');
+const IncidentReport = require('../../backend/models/IncidentReport.js');
+const Employee = require('../../backend/models/Employee.js');
 
 // CORS middleware
 const corsHandler = cors({

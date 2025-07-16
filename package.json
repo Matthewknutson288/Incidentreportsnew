@@ -1,0 +1,13 @@
+{
+  "name": "incident-reports",
+  "version": "1.0.0",
+  "description": "Incident Reports App with Netlify Functions",
+  "dependencies": {
+    "mongoose": "^8.16.3",
+    "cors": "^2.8.5"
+  },
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build",
+    "dev": "cd frontend && npm run dev"
+  }
+} 
