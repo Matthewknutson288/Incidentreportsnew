@@ -90,4 +90,4 @@ cd backend && npm run dev
 cd frontend && npm run dev
 ```
 
-Your app will work locally with MongoDB Atlas! 
+Your app will work locally with MongoDB Atlas!
