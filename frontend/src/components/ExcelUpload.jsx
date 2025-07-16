@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { API_ENDPOINTS } from '../config/api';
 
 function ExcelUpload() {
   const [file, setFile] = useState(null);
@@ -40,7 +41,7 @@ function ExcelUpload() {
     formData.append('excelFile', file);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/excel/upload', formData, {
+      const response = await axios.post(`${API_ENDPOINTS.EXCEL}/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -65,7 +66,7 @@ function ExcelUpload() {
 
   const downloadTemplate = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/excel/template', {
+      const response = await axios.get(`${API_ENDPOINTS.EXCEL}/template`, {
         responseType: 'blob',
       });
 
@@ -84,7 +85,7 @@ function ExcelUpload() {
 
   const downloadExport = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/excel/export', {
+      const response = await axios.get(`${API_ENDPOINTS.EXCEL}/export`, {
         responseType: 'blob',
       });
 

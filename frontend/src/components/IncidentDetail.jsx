@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import { API_ENDPOINTS } from '../config/api';
 
 function IncidentDetail() {
   const { id } = useParams();
@@ -15,7 +16,7 @@ function IncidentDetail() {
 
   const fetchIncident = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/incidents/${id}`);
+      const response = await axios.get(`${API_ENDPOINTS.INCIDENTS}/${id}`);
       setIncident(response.data);
       setLoading(false);
     } catch (err) {
@@ -26,10 +27,10 @@ function IncidentDetail() {
 
   const deleteIncident = async () => {
     if (window.confirm('Are you sure you want to delete this incident?')) {
-      try {
-        await axios.delete(`http://localhost:5000/api/incidents/${id}`);
-        navigate('/');
-      } catch (err) {
+          try {
+      await axios.delete(`${API_ENDPOINTS.INCIDENTS}/${id}`);
+      navigate('/');
+    } catch (err) {
         setError('Failed to delete incident');
       }
     }

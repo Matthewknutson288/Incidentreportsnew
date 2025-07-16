@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_ENDPOINTS } from '../config/api';
 
 function EmployeeManagement() {
   const [employees, setEmployees] = useState([]);
@@ -13,7 +14,7 @@ function EmployeeManagement() {
 
   const fetchEmployees = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/employees');
+      const response = await axios.get(API_ENDPOINTS.EMPLOYEES);
       setEmployees(response.data);
       setLoading(false);
     } catch (err) {
@@ -25,7 +26,7 @@ function EmployeeManagement() {
   const resetPoints = async (employeeId, employeeName) => {
     if (window.confirm(`Are you sure you want to reset ${employeeName}'s points to 0?`)) {
       try {
-        const response = await axios.post(`http://localhost:5000/api/employees/${employeeId}/reset-points`);
+        const response = await axios.post(`${API_ENDPOINTS.EMPLOYEES}/${employeeId}/reset-points`);
         setMessage(`${employeeName}'s points have been reset from ${response.data.previousPoints} to 0`);
         fetchEmployees(); // Refresh the list
         setTimeout(() => setMessage(''), 5000); // Clear message after 5 seconds

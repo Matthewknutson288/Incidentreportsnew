@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import DynamicDropdown from './DynamicDropdown';
+import { API_ENDPOINTS } from '../config/api';
 
 function IncidentForm() {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ function IncidentForm() {
 
   const fetchEmployees = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/employees');
+      const response = await axios.get(API_ENDPOINTS.EMPLOYEES);
       setEmployees(response.data);
     } catch (err) {
       console.error('Failed to fetch employees:', err);
@@ -40,7 +41,7 @@ function IncidentForm() {
 
   const fetchIncident = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/incidents/${id}`);
+      const response = await axios.get(`${API_ENDPOINTS.INCIDENTS}/${id}`);
       setFormData(response.data);
     } catch (err) {
       setError('Failed to fetch incident');
@@ -76,9 +77,9 @@ function IncidentForm() {
 
     try {
       if (isEditing) {
-        await axios.put(`http://localhost:5000/api/incidents/${id}`, formData);
+        await axios.put(`${API_ENDPOINTS.INCIDENTS}/${id}`, formData);
       } else {
-        await axios.post('http://localhost:5000/api/incidents', formData);
+        await axios.post(API_ENDPOINTS.INCIDENTS, formData);
       }
       navigate('/');
     } catch (err) {
