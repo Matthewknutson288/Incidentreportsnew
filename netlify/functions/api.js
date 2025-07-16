@@ -67,13 +67,14 @@ exports.handler = async (event, context) => {
       body: JSON.stringify({ message: 'Route not found' }),
     };
   } catch (error) {
+    console.error('Function error:', error);
     return {
       statusCode: 500,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ message: 'Internal server error', error: error.message }),
+      body: JSON.stringify({ message: 'Internal server error', error: error.message, stack: error.stack }),
     };
   }
 };
