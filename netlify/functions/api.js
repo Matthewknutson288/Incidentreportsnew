@@ -1,21 +1,33 @@
 const mongoose = require('mongoose');
 const cors = require('cors');
 
+// Load environment variables (optional - Netlify provides env vars automatically)
+try {
+  require('dotenv').config();
+} catch (e) {
+  // dotenv not available in production, env vars come from Netlify dashboard
+}
+
 // MongoDB connection
 let isConnected = false;
 
 const connectDB = async () => {
-  if (isConnected) return;
+  if (isConnected) {
+    return;
+  }
   
   try {
-    await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    if (!process.env.MONGO_URI) {
+      throw new Error('MONGO_URI environment variable is not set');
+    }
+    
+    await mongoose.connect(process.env.MONGO_URI);
     isConnected = true;
     console.log('MongoDB connected');
   } catch (error) {
     console.error('MongoDB connection error:', error);
+    isConnected = false;
+    throw error;
   }
 };
 
