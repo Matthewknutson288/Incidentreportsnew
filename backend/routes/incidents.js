@@ -56,14 +56,39 @@ router.post('/', async (req, res) => {
 
     const newIncident = await incident.save();
 
-    // Add points to employee
-    if (req.body.employee) {
-      const employee = await Employee.findById(req.body.employee);
-      if (employee) {
-        employee.totalPoints += points;
-        await employee.save();
+// Add points to employee
+if (req.body.employee) {
+  const emp = await Employee.findById(req.body.employee);
+  if (emp) {
+    emp.totalPoints += points;
+
+    const { sendWriteUpNotification, sendTerminationNotification } = require('../services/emailService');
+
+    if (emp.totalPoints >= 255) {
+      emp.status = 'Terminated';
+      await sendTerminationNotification(emp.name, emp.totalPoints);
+    } else if (emp.totalPoints >= 200) {
+      emp.status = 'Final Warning';
+      if (emp.writeUpCount < 3) {
+        emp.writeUpCount = 3;
+        await sendWriteUpNotification(emp.name, emp.totalPoints, '3rd');
+      }
+    } else if (emp.totalPoints >= 100) {
+      emp.status = 'Warning';
+      if (emp.writeUpCount < 2) {
+        emp.writeUpCount = 2;
+        await sendWriteUpNotification(emp.name, emp.totalPoints, '2nd');
+      }
+    } else if (emp.totalPoints >= 50) {
+      if (emp.writeUpCount < 1) {
+        emp.writeUpCount = 1;
+        await sendWriteUpNotification(emp.name, emp.totalPoints, '1st');
       }
     }
+
+    await emp.save();
+  }
+}
 
     res.status(201).json(newIncident);
   } catch (error) {
